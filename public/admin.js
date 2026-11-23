@@ -491,6 +491,39 @@ document.getElementById('scopeSelect').addEventListener('change', e => {
   loadStats();
 });
 
+/* ------------------------------------------------------------ export */
+const exportBtn = document.getElementById('exportBtn');
+if (exportBtn) {
+  exportBtn.addEventListener('click', async event => {
+    event.preventDefault();
+    try {
+      const res = await fetch('/api/admin/export.csv', { cache: 'no-store' });
+      if (res.status === 401) {
+        showLogin('登录已过期，请重新登录后再导出');
+        return;
+      }
+      if (!res.ok) {
+        let message = '导出失败，请稍后再试';
+        try { const data = await res.json(); message = data.message || message; } catch (e) { /* ignore */ }
+        toast(message);
+        return;
+      }
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'moodmon_survey_data.csv';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 3000);
+      toast('CSV 已开始下载');
+    } catch (err) {
+      toast('导出失败：' + (err.message || '网络异常'));
+    }
+  });
+}
+
 /* ------------------------------------------------------------ boot */
 async function loadNetworkInfo() {
   try {

@@ -404,7 +404,7 @@ export async function onRequest(context) {
         status: 200,
         headers: {
           'Content-Type': 'text/csv; charset=utf-8',
-          'Content-Disposition': 'attachment; filename="moodmon_survey_data.csv"; filename*=UTF-8\'\'MOODMON%E8%B0%83%E7%A0%94%E6%95%B0%E6%8D%AE.csv',
+          'Content-Disposition': 'attachment; filename="moodmon_survey_data.csv"',
           'Cache-Control': 'no-store',
         },
       });
