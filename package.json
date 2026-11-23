@@ -1,0 +1,10 @@
+{
+  "name": "moodmon-survey",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "MOODMON 情绪潮玩IP设计 — 在线问卷与数据看板",
+  "scripts": {
+    "dev": "wrangler pages dev public"
+  }
+}

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>MOODMON 情绪潮玩 IP 设计 · 调研项目</title>
+  <meta name="description" content="MOODMON 情绪潮玩 IP 设计前期调研：问卷、数据看板与项目介绍。" />
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --ink: #23243d; --muted: #6e6a86; --cream: #fbf8f3;
+      --coral: #ff6f61; --yellow: #ffc857; --mint: #4ecdc4; --lav: #9b8afb;
+    }
+    body {
+      margin: 0; min-height: 100vh; background: var(--cream); color: var(--ink);
+      font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", system-ui, sans-serif;
+      display: flex; align-items: center; justify-content: center; padding: 32px 20px;
+    }
+    .wrap { width: 100%; max-width: 760px; position: relative; }
+    .blob { position: absolute; border-radius: 50%; z-index: 0; }
+    .b1 { width: 260px; height: 260px; background: var(--coral); top: -110px; right: -80px; opacity: .92; }
+    .b2 { width: 150px; height: 150px; background: var(--yellow); top: 90px; right: 80px; }
+    .b3 { width: 190px; height: 190px; background: var(--mint); bottom: -100px; right: -40px; opacity: .85; }
+    .b4 { width: 120px; height: 120px; background: var(--lav); bottom: 80px; left: -70px; opacity: .9; }
+    .card {
+      position: relative; z-index: 1; background: rgba(255,255,255,.82);
+      backdrop-filter: blur(10px); border: 1px solid rgba(35,36,61,.08);
+      border-radius: 28px; padding: 42px 34px; box-shadow: 0 24px 70px rgba(35,36,61,.10);
+    }
+    .brand { font-size: 13px; letter-spacing: .22em; color: var(--muted); font-weight: 700; }
+    h1 { margin: 16px 0 10px; font-size: clamp(32px, 7vw, 52px); line-height: 1.12; letter-spacing: -.02em; }
+    h1 em { color: var(--coral); font-style: normal; }
+    .sub { color: var(--muted); font-size: 16px; line-height: 1.8; margin: 0 0 26px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+    .tag { font-size: 12px; padding: 7px 12px; border-radius: 999px; background: #fff; border: 1px solid rgba(35,36,61,.1); color: var(--muted); }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 20px; }
+    a.btn { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-weight: 700; font-size: 15px; padding: 14px 22px; border-radius: 14px; }
+    a.primary { background: var(--ink); color: #fff; }
+    a.primary:hover { background: #000; }
+    a.ghost { background: #fff; color: var(--ink); border: 1px solid rgba(35,36,61,.15); }
+    .note { font-size: 12px; color: var(--muted); line-height: 1.7; border-top: 1px solid rgba(35,36,61,.08); padding-top: 18px; margin-top: 8px; }
+    .note a { color: var(--coral); }
+    footer { margin-top: 26px; font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    @media (max-width: 560px) { .card { padding: 30px 22px; border-radius: 22px; } .b1 { width: 180px; height: 180px; top: -70px; right: -60px; } .b2 { display: none; } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <span class="blob b1"></span><span class="blob b2"></span>
+    <span class="blob b3"></span><span class="blob b4"></span>
+    <section class="card">
+      <div class="brand">MOODMON · 情绪潮玩 IP 设计</div>
+      <h1>情绪可以被看见<br /><em>也可以被拥抱</em></h1>
+      <p class="sub">
+        面向初入职场青年的情绪体验与潮玩偏好调研。<br />
+        问卷匿名、约 2 分钟；后台实时汇总样本结构与角色设计偏好。
+      </p>
+      <div class="tags">
+        <span class="tag">视觉传达设计 · 毕业设计</span>
+        <span class="tag">29 题 · 匿名</span>
+        <span class="tag">Cloudflare Pages + D1</span>
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="https://moodmon-survey.pages.dev/">填写问卷 <span>→</span></a>
+        <a class="btn ghost" href="https://moodmon-survey.pages.dev/admin">后台看板</a>
+      </div>
+      <p class="note">
+        问卷与后台运行在 Cloudflare Pages 上，需要联网访问；GitHub Pages 仅承载这个项目介绍页。<br />
+        如页面打不开，请稍后刷新；后台密码请向项目作者获取。
+      </p>
+      <footer>
+        <span>© 2027 MOODMON</span>
+        <span>MONLINGS · 情绪角色计划</span>
+      </footer>
+    </section>
+  </main>
+</body>
+</html>

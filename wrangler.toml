@@ -1,0 +1,10 @@
+name = "moodmon-survey"
+pages_build_output_dir = "public"
+compatibility_date = "2026-11-01"
+
+# D1 数据库绑定：创建 D1 后取消注释并填入 database_id，
+# 或者在 Cloudflare Pages 项目设置 → Functions → D1 数据库绑定中手动添加。
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "moodmon-survey"
+# database_id = "REPLACE_WITH_YOUR_D1_ID"

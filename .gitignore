@@ -1,0 +1,9 @@
+node_modules/
+.wrangler/
+data/
+tools/
+exports/
+*.db
+*.log
+.DS_Store
+Thumbs.db
