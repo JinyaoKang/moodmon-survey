@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>调研数据后台 · MOODMON</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/admin.css">
+</head>
+<body class="admin-body">
+
+<!-- 登录 -->
+<div id="loginView" class="login-wrap">
+  <form class="login-card" id="loginForm">
+    <div class="login-brand"><span class="login-logo">MOODMON</span><span>调研数据后台</span></div>
+    <h1>管理员登录</h1>
+    <p class="login-desc">查看问卷汇总数据、可视化图表并导出 CSV</p>
+    <label class="field">
+      <span>后台密码</span>
+      <input type="password" id="passwordInput" placeholder="请输入后台密码" autocomplete="current-password" required>
+    </label>
+    <p class="login-error" id="loginError" hidden></p>
+    <button class="btn btn-primary btn-block" type="submit" id="loginBtn">进入后台</button>
+    <p class="login-tip">仅限课题组成员使用。如忘记密码，请查看项目 README 或联系管理员。</p>
+  </form>
+  <p class="login-footer">MOODMON 情绪潮玩IP设计 · 前期用户调研</p>
+</div>
+
+<!-- 后台 -->
+<div id="dashView" class="dash" hidden>
+  <header class="dash-head">
+    <div class="dash-brand">
+      <span class="dash-logo">MOODMON</span>
+      <span class="dash-title">调研数据后台</span>
+      <span class="dash-dot"></span>
+      <span class="dash-sub">情绪与潮玩偏好调研</span>
+    </div>
+    <div class="dash-actions">
+      <span class="updated" id="updatedAt">—</span>
+      <select id="scopeSelect" class="scope-select" title="统计范围">
+        <option value="all">全部样本（含参考）</option>
+        <option value="valid">仅有效样本</option>
+      </select>
+      <button class="btn btn-ghost btn-sm" id="refreshBtn" type="button">刷新数据</button>
+      <a class="btn btn-ghost btn-sm" href="/api/admin/export.csv" id="exportBtn">导出 CSV</a>
+      <button class="btn btn-ghost btn-sm" id="logoutBtn" type="button">退出</button>
+    </div>
+  </header>
+
+  <main class="dash-main">
+    <section class="kpi-row" id="kpiRow"></section>
+
+    <section class="empty-state" id="emptyState" hidden>
+      <div class="empty-icon">◌</div>
+      <h2>还没有收到问卷</h2>
+      <p>把问卷链接发到手机或朋友，提交后这里会自动汇总数据。</p>
+      <code id="surveyLink"></code>
+    </section>
+
+    <div class="grid">
+      <article class="panel">
+        <div class="panel-head"><h2>样本结构</h2><span class="panel-sub">工作年限 · 居住情况</span></div>
+        <div class="chart-block"><h3>工作年限</h3><div class="chart" id="chartWork"></div></div>
+        <div class="chart-row">
+          <div class="chart-block"><h3>居住时长</h3><div class="chart" id="chartDuration"></div></div>
+          <div class="chart-block"><h3>居住情况</h3><div class="chart" id="chartLive"></div></div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head"><h2>潮玩态度</h2><span class="panel-sub">接触、动机与价格</span></div>
+        <div class="chart-block"><h3>购买 / 关注原因（多选）</h3><div class="chart" id="chartToyMotive"></div></div>
+        <div class="chart-row">
+          <div class="chart-block"><h3>潮玩接触经历</h3><div class="chart" id="chartToyExp"></div></div>
+          <div class="chart-block"><h3>可接受价格</h3><div class="chart" id="chartToyPrice"></div></div>
+        </div>
+      </article>
+
+      <article class="panel span-2">
+        <div class="panel-head"><h2>情绪频率</h2><span class="panel-sub">最近一个月 · 有效样本</span></div>
+        <div class="chart" id="chartFreq"></div>
+      </article>
+
+      <article class="panel span-2">
+        <div class="panel-head"><h2>情绪与表达</h2><span class="panel-sub">最常出现的情绪与表达方式</span></div>
+        <div class="chart-block"><h3>最常感到的情绪（多选，最多 3 项）</h3><div class="chart" id="chartEmoTags"></div></div>
+        <div class="chart-block"><h3>表达 / 缓解情绪的方式（多选）</h3><div class="chart" id="chartExprWay"></div></div>
+        <div class="chart-block"><h3>情绪不好时更倾向于</h3><div class="chart" id="chartWho"></div></div>
+      </article>
+
+      <article class="panel span-2">
+        <div class="panel-head"><h2>态度与意愿</h2><span class="panel-sub">5 点量表均值 · 1—5</span></div>
+        <div class="chart" id="chartAttitude"></div>
+      </article>
+
+      <article class="panel span-2">
+        <div class="panel-head"><h2>角色设计偏好</h2><span class="panel-sub">情绪主题、动物原型、色彩与识别方式</span></div>
+        <div class="chart-block"><h3>最希望角色表达的情绪（多选）</h3><div class="chart" id="chartRoleNeed"></div></div>
+        <div class="chart-row">
+          <div class="chart-block"><h3>动物原型</h3><div class="chart" id="chartRoleAnimal"></div></div>
+          <div class="chart-block"><h3>色彩倾向</h3><div class="chart" id="chartRoleColor"></div></div>
+        </div>
+        <div class="chart-block"><h3>最能识别情绪的特征（多选）</h3><div class="chart" id="chartRoleShape"></div></div>
+        <div class="chart-row">
+          <div class="chart-block"><h3>故事风格</h3><div class="chart" id="chartRoleStory"></div></div>
+          <div class="chart-block"><h3>角色尺寸</h3><div class="chart" id="chartRoleSize"></div></div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head"><h2>样本条件差异</h2><span class="panel-sub">参考样本原因</span></div>
+        <div class="chart" id="chartScreen"></div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head"><h2>交叉分析</h2><span class="panel-sub">分组变量 × 量表均值</span></div>
+        <div class="cross-controls">
+          <label>分组变量
+            <select id="crossGroup"></select>
+          </label>
+          <label>对比指标
+            <select id="crossMetric"></select>
+          </label>
+        </div>
+        <div class="chart" id="chartCross"></div>
+        <p class="panel-note" id="crossNote"></p>
+      </article>
+
+      <article class="panel span-2">
+        <div class="panel-head"><h2>开放题回答</h2><span class="panel-sub">原始文本 · 当前统计范围</span></div>
+        <div class="open-tools">
+          <div class="tabs">
+            <button type="button" class="tab active" data-tab="o1">情绪场景</button>
+            <button type="button" class="tab" data-tab="o2">对角色形象的期待</button>
+          </div>
+          <div class="keywords" id="keywords"></div>
+        </div>
+        <div class="open-list" id="openList"></div>
+      </article>
+
+      <article class="panel span-2">
+        <div class="panel-head"><h2>最近提交</h2><span class="panel-sub">最新 6 条</span></div>
+        <div class="table-wrap"><table class="recent-table" id="recentTable"></table></div>
+      </article>
+    </div>
+
+    <p class="dash-foot">手机问卷：<code id="phoneUrl">—</code> · 数据仅保存在本机 <code>data/moodmon.db</code> · 页面每 20 秒自动刷新</p>
+  </main>
+</div>
+
+<div id="toast" class="toast" role="status"></div>
+<script src="/admin.js"></script>
+</body>
+</html>
